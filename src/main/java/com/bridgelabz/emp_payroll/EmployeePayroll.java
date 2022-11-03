@@ -1,12 +1,9 @@
 package com.bridgelabz.emp_payroll;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class EmployeePayroll {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         String jdbcURL = "jdbc:mysql://localhost:3306/payroll_service";
         String userName = "root";
         String password = "Salunkhe@07";
@@ -31,6 +28,11 @@ public class EmployeePayroll {
         System.out.println(" ");
         try {
             Statement statement = connection.createStatement();
+            //UC2 = update salary of emplyoee
+            String name = "Ashwini";
+            double salary = 30000000;
+            statement.executeUpdate("update employee_payroll set Salary = "+ salary +" where name = '"+ name +"'");
+            //show database
             ResultSet resultSet = statement.executeQuery("select * from employee_payroll");
             while (resultSet.next()){
                 System.out.print(resultSet.getInt(1)+ " ");
@@ -42,6 +44,8 @@ public class EmployeePayroll {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            connection.close();
         }
 
     }
