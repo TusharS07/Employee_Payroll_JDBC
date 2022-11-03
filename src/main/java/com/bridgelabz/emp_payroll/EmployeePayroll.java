@@ -31,7 +31,7 @@ public class EmployeePayroll {
             //UC2 = update salary of emplyoee
             String name = "Ashwini";
             double salary = 30000000;
-            statement.executeUpdate("update employee_payroll set Salary = "+ salary +" where name = '"+ name +"'");
+            //statement.executeUpdate("update employee_payroll set Salary = "+ salary +" where name = '"+ name +"'");
             //show database data
             ResultSet resultSet = statement.executeQuery("select * from employee_payroll");
             while (resultSet.next()){
@@ -45,15 +45,51 @@ public class EmployeePayroll {
 
             //UC5= retrive employees who have joined in a particular data range from the payroll service database.
             System.out.println("\n Employee data who joined from '2021-01-01' ");
-            ResultSet resultSet2 = statement.executeQuery("SELECT * FROM employee_payroll WHERE start BETWEEN CAST('2021-01-01' AS DATE) AND DATE(NOW())");
-            while (resultSet2.next()){
-                System.out.print(resultSet2.getInt(1)+ " ");
-                System.out.print(resultSet2.getString(2)+ " ");
-                System.out.print(resultSet2.getString(3)+ " ");
-                System.out.print(resultSet2.getDouble(4)+ " ");
-                System.out.print(resultSet2.getDate(5)+ " ");
+            ResultSet joinDate = statement.executeQuery("SELECT * FROM employee_payroll WHERE start BETWEEN CAST('2021-01-01' AS DATE) AND DATE(NOW())");
+            while (joinDate.next()){
+                System.out.print(joinDate.getInt(1)+ " ");
+                System.out.print(joinDate.getString(2)+ " ");
+                System.out.print(joinDate.getString(3)+ " ");
+                System.out.print(joinDate.getDouble(4)+ " ");
+                System.out.print(joinDate.getDate(5)+ " ");
                 System.out.println();
             }
+
+            //UC-6-Ability to find sum, average, min, max and number of male and female employees
+            System.out.println("\n sum of male and female employees salary");
+            ResultSet sum = statement.executeQuery("SELECT Gender, SUM(Salary) FROM employee_payroll GROUP BY Gender");
+            while (sum.next()){
+                System.out.print(sum.getString(1)+ " ");
+                System.out.print(sum.getString(2)+ " ");
+            }
+
+            System.out.println();
+
+            System.out.println("\n AVG of male and female employees salary");
+            ResultSet avg = statement.executeQuery("SELECT Gender, AVG(Salary) FROM employee_payroll GROUP BY Gender");
+            while (avg.next()){
+                System.out.print(avg.getString(1)+ " ");
+                System.out.print(avg.getString(2)+ " ");
+            }
+
+            System.out.println();
+
+            System.out.println("\n MIN of male and female employees salary");
+            ResultSet min = statement.executeQuery("SELECT Gender, MIN(Salary) FROM employee_payroll GROUP BY Gender");
+            while (min.next()){
+                System.out.print(min.getString(1)+ " ");
+                System.out.print(min.getString(2)+ " ");
+            }
+
+            System.out.println();
+
+            System.out.println("\n MAX of male and female employees salary");
+            ResultSet max = statement.executeQuery("SELECT Gender, MAX(Salary) FROM employee_payroll GROUP BY Gender");
+            while (max.next()){
+                System.out.print(max.getString(1)+ " ");
+                System.out.print(max.getString(2)+ " ");
+            }
+            System.out.println();
 
         } catch (Exception e) {
             e.printStackTrace();
